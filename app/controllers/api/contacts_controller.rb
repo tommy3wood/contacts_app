@@ -5,12 +5,12 @@ class Api::ContactsController < ApplicationController
   end
 
   def all_contact_action
-    @all_contacts = []
+    # @contacts = []
 
-    Contact.all.each do |contact|
-      @all_contacts << contact
-    end
-
+    # Contact.all.each do |contact|
+    #   @contacts << contact
+    # end
+    @contacts = Contact.all
     render 'all_contact_view.json.jb'
   end
 end
