@@ -1,7 +1,3 @@
-# {
-#   all_contacts: @contacts
-# }
-
 @contacts.map do |contact|
   {
     id: contact.id,
