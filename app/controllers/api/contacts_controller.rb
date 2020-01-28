@@ -1,8 +1,13 @@
 class Api::ContactsController < ApplicationController
   
   def index
-    @contacts = Contact.all
-    render 'index.json.jb'
+    
+    if current_user.id
+      @contacts = current_user.contacts
+      render 'index.json.jb'
+    else
+      render json: {catspaw: "You're not supposed to be here"}
+    end
   end
 
   def create
@@ -13,6 +18,7 @@ class Api::ContactsController < ApplicationController
                             bio: params[:bio],
                             email: params[:email],
                             phone_number: params[:phone_number],
+                            user_id: current_user.id
 
                             )
     if @contact.save
@@ -23,8 +29,11 @@ class Api::ContactsController < ApplicationController
   end
 
   def show
-    @contact = Contact.find(params[:id])
-    render 'show.json.jb'
+
+    if current_user
+      @contact = current_user.contacts.find(params[:user_id]) #Contact.find(params[:id])
+      render 'show.json.jb'
+    else
   end
 
   def update
