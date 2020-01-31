@@ -4,6 +4,7 @@
   first_name: contact.first_name,
   middle_name: contact.middle_name,
   last_name: contact.last_name,
+  groups: contact.groups.map { |group| group.name },
   bio: contact.bio,
   email: contact.email,
   phone_number: contact.phone_number,

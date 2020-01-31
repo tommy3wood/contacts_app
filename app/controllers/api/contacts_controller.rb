@@ -1,7 +1,14 @@
 class Api::ContactsController < ApplicationController
   
   def index
-    
+    group_choice = params[:group]
+
+    if group_choice
+      group = Group.find_by(name: group_choice)
+      @contacts = group.contacts
+      render 'index.json.jb'
+    end
+
     if current_user.id
       @contacts = current_user.contacts
       render 'index.json.jb'
@@ -33,7 +40,8 @@ class Api::ContactsController < ApplicationController
     if current_user
       @contact = current_user.contacts.find(params[:user_id]) #Contact.find(params[:id])
       render 'show.json.jb'
-    else
+    end
+
   end
 
   def update
