@@ -1,16 +1,18 @@
 class Api::ContactsController < ApplicationController
   
   def index
-    group_choice = params[:group]
+    if current_user
+      group_name = params[:group]
 
-    if group_choice
-      group = Group.find_by(name: group_choice)
-      @contacts = group.contacts
-      render 'index.json.jb'
-    end
+      if group_name
+        group = Group.find_by(name: group_choice)
+        @contacts = group.contacts.where( user_id: current_user.id )
+        
+        render 'index.json.jb'
+      else
+        @contacts = current_user.contacts
+      end
 
-    if current_user.id
-      @contacts = current_user.contacts
       render 'index.json.jb'
     else
       render json: {catspaw: "You're not supposed to be here"}
