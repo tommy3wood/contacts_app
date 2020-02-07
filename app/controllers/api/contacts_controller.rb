@@ -1,22 +1,23 @@
 class Api::ContactsController < ApplicationController
   
   def index
-    if current_user
-      group_name = params[:group]
 
-      if group_name
-        group = Group.find_by(name: group_choice)
-        @contacts = group.contacts.where( user_id: current_user.id )
+    # if User.first #current_user
+    #   group_name = params[:group]
+
+      # if group_name
+      #   group = Group.find_by(name: group_choice)
+      #   @contacts = group.contacts.where( user_id: current_user.id )
         
-        render 'index.json.jb'
-      else
-        @contacts = current_user.contacts
-      end
+      #   render 'index.json.jb'
+      # else
+      @contacts = Contact.all #current_user.contacts
+      # end
 
       render 'index.json.jb'
-    else
-      render json: {catspaw: "You're not supposed to be here"}
-    end
+    # else
+    #   render json: {catspaw: "You're not supposed to be here"}
+    # end
   end
 
   def create
@@ -27,8 +28,7 @@ class Api::ContactsController < ApplicationController
                             bio: params[:bio],
                             email: params[:email],
                             phone_number: params[:phone_number],
-                            user_id: current_user.id
-
+                            user_id: 2 #current_user.id
                             )
     if @contact.save
       render 'show.json.jb'
@@ -39,7 +39,7 @@ class Api::ContactsController < ApplicationController
 
   def show
 
-    if current_user
+    if User.first #current_user
       @contact = current_user.contacts.find(params[:user_id]) #Contact.find(params[:id])
       render 'show.json.jb'
     end
